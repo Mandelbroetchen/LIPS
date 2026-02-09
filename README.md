@@ -1,15 +1,20 @@
-## 1. Installation
+# LLM-driven Iterative Project Synthesis (LIPS)
+## Overview
+
+## Usage
+### 1. Installation
 ```
 pip install --force-reinstall --upgrade git+https://github.com/Mandelbroetchen/LIPS.git
 
 ```
 
-## 2. Download Project Template
+### 2. Download Project Template
+Download the [templates](https://github.com/Mandelbroetchen/LIPS-project-templates) manually or use command
 ```
 git clone https://github.com/Mandelbroetchen/LIPS-project-templates
 ```
 
-## 3. API Key
+### 3. API Key
 ```
 cd LIPS-project-templates/general-code-project
 echo MISTRAL_API_KEY=YOUR_MISTRAL_AI_API_KAY > .env
@@ -22,7 +27,7 @@ code-raw/configs/api.json
 code-final/configs/api.json
 ```
 
-## Workflow
+### Workflow
 Write your first prompt into `requirements/contents/product-requirements.md`, something like
 
 ```
