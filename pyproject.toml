@@ -1,10 +1,17 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=65", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "LIPS"
 version = "0.1.0"
-dependencies = [
-    # "requests>=2.28",
+description = "LLM-driven iterative project synthesis pipeline"
+authors = [
+  { name="Your Name", email="you@example.com" }
 ]
+dependencies = [
+  # list your dependencies
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
