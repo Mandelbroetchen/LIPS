@@ -51,7 +51,7 @@ python -m blackhole.mp4 input.json
 Reads a JSON file as input.
 
 ## Output
-Generates a GIF file as output. Each frame of the GIF file is a plot chart. 
+Generates a GIF file as output. Each frame of the GIF file is a plot figure. 
 
 ## Requirements
 - Specify the input format and provide an example.
