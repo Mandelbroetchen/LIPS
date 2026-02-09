@@ -3,21 +3,24 @@ import re
 
 def load_html(path_to_html):
     def process_file_tag(match, base_path):
-        file_path = match.group(1)
-        if os.path.isfile(file_path):
-            with open(file_path, 'r', encoding='utf-8') as f:
-                content = f.read()
-            return f'<file src="{match.group(1)}">{content}</file>'
-        else:
-            print(f"Warning: File '{file_path}' not found. Leaving tag unchanged.")
-            return match.group(0)  # leave unchanged if file doesn't exist
+        file_path = os.path.join(base_path, match.group(1))
+        if not os.path.isfile(file_path):
+            # Create an empty file if it doesn't exist
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write('')
+            print(f"Info: File '{file_path}' not found. Created empty file.")
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        return f'<file src="{match.group(1)}">{content}</file>'
 
     def process_folder_tag(match, base_path):
-        folder_path = match.group(1)
-        if os.path.isdir(folder_path):
-            return contents_from_folder(folder_path, parenthesis="<>")
-        else:
-            return match.group(0)  # leave unchanged if folder doesn't exist
+        folder_path = os.path.join(base_path, match.group(1))
+        if not os.path.isdir(folder_path):
+            # Create folder if it doesn't exist
+            os.makedirs(folder_path, exist_ok=True)
+            print(f"Info: Folder '{folder_path}' not found. Created empty folder.")
+        return contents_from_folder(folder_path, parenthesis="<>")
 
     # Read the main HTML file
     with open(path_to_html, 'r', encoding='utf-8') as f:
@@ -26,11 +29,19 @@ def load_html(path_to_html):
     base_path = os.path.dirname(path_to_html)
 
     # First replace all <file> tags
-    html_content = re.sub(r'<file src="(.+?)"></file>', lambda m: process_file_tag(m, base_path), html_content)
+    html_content = re.sub(
+        r'<file src="(.+?)"></file>',
+        lambda m: process_file_tag(m, base_path),
+        html_content
+    )
 
     # Then replace all <folder> tags recursively
     while re.search(r'<folder src="(.+?)"></folder>', html_content):
-        html_content = re.sub(r'<folder src="(.+?)"></folder>', lambda m: process_folder_tag(m, base_path), html_content)
+        html_content = re.sub(
+            r'<folder src="(.+?)"></folder>',
+            lambda m: process_folder_tag(m, base_path),
+            html_content
+        )
 
     return html_content
 
