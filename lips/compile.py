@@ -7,7 +7,15 @@ import argparse
 from dotenv import load_dotenv
 
 def main():
-    load_dotenv()
+    # Load .env from the folder where python is run
+    project_root = Path.cwd()  # current working directory
+    dotenv_path = project_root / ".env"
+
+    if not dotenv_path.exists():
+        raise FileNotFoundError(f".env file not found at {dotenv_path}")
+
+    load_dotenv(dotenv_path=dotenv_path)
+    
     # 1. Take the first argument as a path to the input folder
     parser = argparse.ArgumentParser(description="Process input folder for API response.")
     parser.add_argument("input_folder", help="Path to the input folder")
