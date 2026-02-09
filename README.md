@@ -1,6 +1,7 @@
 ## Installation
 ```
-pip install --upgrade git+https://github.com/Mandelbroetchen/LIPS.git
+pip install --force-reinstall --upgrade git+https://github.com/Mandelbroetchen/LIPS.git
+
 ```
 
 ## API Key
