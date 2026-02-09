@@ -34,9 +34,9 @@ Write your first prompt into `requirements/contents/product-requirements.md`, so
 
 ## Scope
 A simple program run in the terminal with:
-```bash
+
 python -m blackhole.mp4 input.json
-```
+
 
 ## Input
 Reads a JSON file as input.
