@@ -2,8 +2,8 @@ import os, sys
 import re
 
 def load_html(path_to_html):
-    def process_file_tag(match, base_path):
-        file_path = os.path.join(base_path, match.group(1))
+    def process_file_tag(match):
+        file_path =  match.group(1)
         if not os.path.isfile(file_path):
             # Create an empty file if it doesn't exist
             os.makedirs(os.path.dirname(file_path), exist_ok=True)
@@ -14,8 +14,8 @@ def load_html(path_to_html):
             content = f.read()
         return f'<file src="{match.group(1)}">{content}</file>'
 
-    def process_folder_tag(match, base_path):
-        folder_path = os.path.join(base_path, match.group(1))
+    def process_folder_tag(match):
+        folder_path = match.group(1)
         if not os.path.isdir(folder_path):
             # Create folder if it doesn't exist
             os.makedirs(folder_path, exist_ok=True)
@@ -31,7 +31,7 @@ def load_html(path_to_html):
     # First replace all <file> tags
     html_content = re.sub(
         r'<file src="(.+?)"></file>',
-        lambda m: process_file_tag(m, base_path),
+        lambda m: process_file_tag(m),
         html_content
     )
 
@@ -39,7 +39,7 @@ def load_html(path_to_html):
     while re.search(r'<folder src="(.+?)"></folder>', html_content):
         html_content = re.sub(
             r'<folder src="(.+?)"></folder>',
-            lambda m: process_folder_tag(m, base_path),
+            lambda m: process_folder_tag(m),
             html_content
         )
 
