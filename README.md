@@ -5,7 +5,6 @@
 ### 1. Installation
 ```
 pip install --force-reinstall --upgrade git+https://github.com/Mandelbroetchen/LIPS.git
-
 ```
 
 ### 2. Download Project Template
