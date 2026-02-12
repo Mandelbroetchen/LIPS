@@ -21,7 +21,7 @@ git clone https://github.com/Mandelbroetchen/LIPS-project-templates
 ### 3. API Key
 First, `cd` into the working folder. 
 ```
-cd LIPS-project-templates/general-code-project
+cd LIPS-project-templates/code-project
 ```
 Create an empty file `.env` and add the line
 ```
