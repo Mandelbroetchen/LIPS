@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import argparse
 from dotenv import load_dotenv
+import time
 
 def main():
     # Load .env from the folder where python is run
@@ -38,8 +39,10 @@ def main():
 
     prompt = load_html(prompt_template_path)
 
+    timestamp = time.strftime("%Y%m%d-%H%M%S")
+    
     # 3. Write prompt to ./inputfolder/out/prompt.html
-    prompt_output_path = output_folder / "prompt.html"
+    prompt_output_path = output_folder / f"{timestamp}.prompt.html"
     prompt_output_path.write_text(prompt, encoding="utf-8")
     print(f"Prompt written to {prompt_output_path}")
 
@@ -59,7 +62,8 @@ def main():
     response = api.get_response(prompt)
 
     # 9. Write the extracted content to ./inputfolder/out/out.contents
-    response_output_path = output_folder / "out.contents"
+
+    response_output_path = output_folder / f"{timestamp}.out.contents"
     response_output_path.write_text(response, encoding="utf-8")
     print(f"Response content written to {response_output_path}")
 
