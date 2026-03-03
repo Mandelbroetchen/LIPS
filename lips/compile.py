@@ -71,6 +71,8 @@ def main():
     
     for path, content in contents.items():
         os.makedirs(os.path.dirname(path), exist_ok=True)
+        print(f"Overwriting {path}")
+
         with open(path, 'w', encoding='utf-8') as f:
             f.write(content)
 
