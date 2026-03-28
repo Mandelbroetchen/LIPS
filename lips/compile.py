@@ -1,4 +1,4 @@
-from .files import load_html, extract_state
+from .files import load_html, extract_contents
 from .api import API
 import sys, os
 import json
@@ -67,7 +67,7 @@ def main():
     response_output_path.write_text(response, encoding="utf-8")
     print(f"Response content written to {response_output_path}")
 
-    state = extract_state(response)
+    state = extract_contents(response)
     
     for path, content in state.items():
         os.makedirs(os.path.dirname(path), exist_ok=True)
