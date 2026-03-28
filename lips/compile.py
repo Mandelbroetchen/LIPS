@@ -1,4 +1,4 @@
-from .files import load_html, extract_contents
+from .files import load_html, extract_state
 from .api import API
 import sys, os
 import json
@@ -32,7 +32,7 @@ def main():
     output_folder.mkdir(exist_ok=True)
 
     # 2. Load prompt template
-    prompt_template_path = input_folder / "configs" / "prompt-template.html"
+    prompt_template_path = input_folder / "config" / "compile.html"
     if not prompt_template_path.exists():
         print(f"Error: Prompt template '{prompt_template_path}' does not exist.")
         sys.exit(1)
@@ -47,7 +47,7 @@ def main():
     print(f"Prompt written to {prompt_output_path}")
 
     # 4. Load API config from ./inputfolder/config/api.json
-    api_config_path = input_folder / "configs" / "api.json"
+    api_config_path = input_folder / "config" / "api.json"
     if not api_config_path.exists():
         print(f"Error: API config '{api_config_path}' does not exist.")
         sys.exit(1)
@@ -61,15 +61,15 @@ def main():
     # 6. Get response from API
     response = api.get_response(prompt)
 
-    # 9. Write the extracted content to ./inputfolder/out/out.contents
+    # 9. Write the extracted content to ./inputfolder/out/out.state
 
     response_output_path = output_folder / f"{timestamp}.log"
     response_output_path.write_text(response, encoding="utf-8")
     print(f"Response content written to {response_output_path}")
 
-    contents = extract_contents(response)
+    state = extract_state(response)
     
-    for path, content in contents.items():
+    for path, content in state.items():
         os.makedirs(os.path.dirname(path), exist_ok=True)
         print(f"Overwriting {path}")
 
