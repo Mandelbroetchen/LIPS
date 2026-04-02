@@ -17,8 +17,9 @@ def main():
 
     load_dotenv(dotenv_path=dotenv_path)
     
-    # 1. Take the first argument as a path to the input folder
+    # 1. Take command and input folder as arguments
     parser = argparse.ArgumentParser(description="Process input folder for API response.")
+    parser.add_argument("command", help="Command name (used to select the prompt template)")
     parser.add_argument("input_folder", help="Path to the input folder")
     args = parser.parse_args()
 
@@ -31,8 +32,8 @@ def main():
     output_folder = input_folder / "out"
     output_folder.mkdir(exist_ok=True)
 
-    # 2. Load prompt template
-    prompt_template_path = input_folder / "config" / "compile.html"
+    # 2. Load prompt template based on command
+    prompt_template_path = input_folder / "config" / f"{args.command}.html"
     if not prompt_template_path.exists():
         print(f"Error: Prompt template '{prompt_template_path}' does not exist.")
         sys.exit(1)
@@ -41,7 +42,7 @@ def main():
 
     timestamp = time.strftime("%Y%m%d-%H%M%S")
     
-    # 3. Write prompt to ./inputfolder/out/prompt.html
+    # 3. Write prompt to ./inputfolder/out/<timestamp>.html
     prompt_output_path = output_folder / f"{timestamp}.html"
     prompt_output_path.write_text(prompt, encoding="utf-8")
     print(f"Prompt written to {prompt_output_path}")
@@ -61,8 +62,7 @@ def main():
     # 6. Get response from API
     response = api.get_response(prompt)
 
-    # 9. Write the extracted content to ./inputfolder/out/out.state
-
+    # 7. Write the response to ./inputfolder/out/<timestamp>.log
     response_output_path = output_folder / f"{timestamp}.log"
     response_output_path.write_text(response, encoding="utf-8")
     print(f"Response content written to {response_output_path}")
